@@ -1,0 +1,66 @@
+repositories {
+    google()
+    jcenter()
+    mavenCentral()
+}
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.3.1'
+    }
+}
+
+apply plugin: 'com.android.application'
+
+dependencies {
+    // BEGIN AWS DEPENDENCIES
+    def aws_version = '2.72.0'
+    implementation "com.amazonaws:aws-android-sdk-s3:$aws_version"
+    implementation ("com.amazonaws:aws-android-sdk-mobile-client:$aws_version") { transitive = true }
+    // END AWS DEPENDENCIES
+
+    implementation 'androidx.test.espresso:espresso-core:3.1.0', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    implementation 'androidx.test:rules:1.1.1'
+    implementation 'androidx.core:core:1.0.0'
+    implementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+}
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        versionCode 1
+        versionName "1.0.0"
+        minSdkVersion 18
+        targetSdkVersion 29
+        testInstrumentationRunner = 'androidx.test.runner.AndroidJUnitRunner'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+    }
+    lint {
+        abortOnError false
+    }
+}
